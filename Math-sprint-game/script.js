@@ -9,7 +9,7 @@ const radioContainers = document.querySelectorAll(".radio-container");
 const radioInputs = document.querySelectorAll("input");
 const bestScores = document.querySelectorAll(".best-score-value");
 // Countdown Page
-const countdown = document.querySelector(".countdown");
+const countdownEl = document.querySelector(".countdown");
 // Game Page
 const itemContainer = document.querySelector(".item-container");
 // Score Page
@@ -250,27 +250,29 @@ function populateGamePage() {
   itemContainer.appendChild(bottomSpacer);
 }
 
-// Displays 3, 2, 1, GO!
+// Run Countdown
 function startCountdown() {
-  countdown.textContent = "3";
-  setTimeout(() => {
-    countdown.textContent = "2";
+  let countDown = 3;
+  countdownEl.textContent = countDown;
+  const countDownTimer = setInterval(() => {
+    countDown--;
+    if (countDown === 0) {
+      countdownEl.textContent = "GO!";
+    } else if (countDown === -1) {
+      showGamePage();
+      clearInterval(countDownTimer);
+    } else {
+      countdownEl.textContent = countDown;
+    }
   }, 1000);
-  setTimeout(() => {
-    countdown.textContent = "1";
-  }, 2000);
-  setTimeout(() => {
-    countdown.textContent = "GO!";
-  }, 3000);
 }
 
 // Navigate from Splash Page to Countdown Page
 function showCountdown() {
   countdownPage.hidden = false;
   splashPage.hidden = true;
-  startCountdown();
   populateGamePage();
-  setTimeout(showGamePage, 400); // TODO Change to 4000
+  startCountdown();
 }
 
 // Get the value from selected radio button
